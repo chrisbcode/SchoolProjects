@@ -1,0 +1,102 @@
+# Written by Chriss B
+# Assignment 3 - Coin Flips in a Row
+
+import random
+
+class Coin:
+    tTotal = 0 # Tails total
+    hTotal = 0 # Heads total
+    fTotal = 0 # Flips total
+    tMax = 0 # Maximum tails in a row
+    hMax = 0 # Maximum heads in a row
+    tinar = 0 # Tails in a row
+    hinar = 0 # Heads in a row
+
+    def flip(self):
+
+        self.fTotal += 1
+        randomNum = random.random() # Random number between 0 and 1
+
+        if randomNum < 0.5: # Checks if the random number is below 0.5 (the chance for tails)
+            self.tTotal += 1
+            self.tinar += 1
+            self.hinar = 0
+
+            print("Tails! Flip number:", self.fTotal, "| Tails in a row:", self.tinar)
+
+            if self.tinar >= self.tMax:
+                self.tMax = self.tinar
+
+        elif randomNum > 0.5: # Checks if the random number is above 0.5 (the chance for heads)
+            self.hTotal += 1
+            self.hinar += 1
+            self.tinar = 0
+
+            print("Heads! Flip number:", self.fTotal, "| Heads in a row:", self.hinar)
+
+            if self.hinar >= self.hMax:
+                self.hMax = self.hinar
+
+    def flipSummary(self, four = False):
+
+        def reset(self): # Resets all variables
+            self.tTotal = 0
+            self.hTotal = 0
+            self.fTotal = 0
+            self.tMax = 0
+            self.hMax = 0
+            self.tinar = 0
+            self.hinar = 0
+
+        if four == False: # Free flip mode
+
+            if self.tTotal > self.hTotal:
+                result = "\nTails won by total!"
+            elif self.tTotal < self.hTotal:
+                result = "\nHeads won by total!"
+            else:
+                result = "\nIt was a tie because of equal ties!"
+
+            print(result, end=" ")
+            print("Total flips:", self.fTotal, "| Total tails:", self.tTotal, "| Total heads:", self.hTotal, "| Maximum tails in a row:", self.tMax, "| Maximum heads in a row:", self.hMax)
+            reset(self)
+
+        elif four == True: # Four flip mode
+            if self.hinar == 4:
+                result = "\nHeads won!"
+            elif self.tinar == 4:
+                result = "\nTails won!"
+
+            print(result, end=" ")
+            print("Total flips:", self.fTotal, "| Total tails:", self.tTotal, "| Total heads:", self.hTotal, "| Maximum tails in a row:", self.tMax, "| Maximum heads in a row:", self.hMax)
+            reset(self)
+
+print("Hello, this is Chris B's Assigment 3: Coin Flips in a Row! ")
+print("Lets start!")
+
+exit = False
+coin1 = Coin()
+
+while exit == False:
+    print("\nWhat would you like to do?\n1. Flip a coin\n2. Four in a row\n3. Exit")
+    option = input()
+
+    if option == "1":
+        print("\nHow many flips?")
+        flips = int(input())
+
+        for i in range(flips):
+            coin1.flip()
+        coin1.flipSummary()
+
+    elif option == "2":
+        while coin1.hinar < 4 and coin1.tinar < 4:
+            coin1.flip()
+        coin1.flipSummary(True)
+
+    elif option == "3":
+        print("\nBye!")
+        exit = True
+
+    else:
+        print("\n Invalid option. Please try again.")
